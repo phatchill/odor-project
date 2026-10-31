@@ -48,6 +48,8 @@ The notebook is designed to be run from top to bottom. Its main stages are:
 
 ## Model comparison
 
+### Random split results
+
 The saved runs compare the models on the Leffingwell dataset using random splits with seeds 0–10 (11 seeds). For each seed, macro AUROC is averaged across 84 odor labels with defined scores; the table reports the mean and population standard deviation across seeds.
 
 | Model | Input features | Test macro AUROC (mean ± SD) |
