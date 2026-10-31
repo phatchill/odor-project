@@ -97,7 +97,7 @@ The `pyrfume-data/` directory is a separate Git repository, so this project can 
 To clone this project and fetch the linked data repository in one step:
 
 ```bash
-git clone --recurse-submodules https://github.com/<account>/<project>.git
+git clone --recurse-submodules https://github.com/phatchill/odor-project.git
 ```
 
 If you already cloned the project without its submodule, initialize it from the project directory:

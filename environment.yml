@@ -1,0 +1,25 @@
+name: base
+channels:
+  - defaults
+dependencies:
+  - python=3.14
+  - conda=26.9.4
+  - setuptools
+  - pip
+  - wheel
+  - conda-anaconda-telemetry[version='>=0.3.0']
+  - conda-anaconda-tos[version='>=0.2.2']
+  - conda-content-trust
+  - conda-libmamba-solver
+  - menuinst
+  - anaconda-anon-usage
+  - anaconda-channel-guide
+  - anaconda-auth[version='>=0.15.1']
+  - jupyter
+  - matplotlib
+  - pandas
+  - numpy
+  - scikit-learn
+  - umap-learn
+  - rdkit
+prefix: /home/vltp/miniconda3
