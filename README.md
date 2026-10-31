@@ -46,6 +46,18 @@ The notebook is designed to be run from top to bottom. Its main stages are:
 - **Interpretability helpers.** The notebook defines an atom-level gradient-times-input contribution function and lists example functional groups, but the current notebook cells do not apply that function to molecules or produce saliency figures. The label-geometry check is also described in the extras heading but is not implemented in the current cells.
 - **Predictions are learned associations.** A predicted descriptor is a model estimate from the dataset, not a guarantee of how every person will perceive a molecule and not evidence that a specific atom causes an odor.
 
+## Model comparison
+
+The current saved run compares the models on the Leffingwell dataset using a random split (seed 0). All three models use the same test split, and macro AUROC is averaged across 84 odor labels with defined scores.
+
+| Model | Input features | Test macro AUROC |
+| --- | --- | ---: |
+| Logistic Regression (LR) | Morgan count fingerprints | 0.8735 |
+| Random Forest (RF) | Morgan count fingerprints | 0.8668 |
+| Graph Neural Network (GNN) | Molecular graph | 0.8696 |
+
+For this run, LR has the highest test macro AUROC. These values come from one random seed and should not be treated as an estimate of performance across different splits. The notebook aggregates available runs across seeds and saves per-label comparisons to `results/per_label_<SOURCE>_<SPLIT>.csv`; it also creates a per-label GNN-versus-RF scatter plot when results for both models are available.
+
 ## Running it
 
 Open the notebook in Jupyter and run its cells in order:
