@@ -122,37 +122,23 @@ The following figures are included in [`figures/`](./figures/):
 | Scaffold-split labels per molecule | ![Distribution of odor-label counts per molecule in the scaffold split](./figures/eda_labels_per_mol_leffingwell_scaffold.png) |
 | Scaffold-split model comparison | ![Per-label AUROC comparison between the GNN and Random Forest for the scaffold split](./figures/gnn_vs_rf_leffingwell_scaffold.png) |
 
-### UMAP embedding projections
+### GNN embedding projections by seed
 
-Each projection shows the GNN embeddings for one seed, colored by selected odor labels.
+Each image shows a UMAP projection of GNN embeddings for that run, colored by odor labels. The layouts are computed independently for each seed and are not directly aligned across images.
 
-#### Random split
-
-| Seed 0 | Seed 1 | Seed 2 |
-| --- | --- | --- |
-| <img src="./figures/umap_leffingwell_random_seed0.png" width="300" alt="Random-split GNN embedding projection, seed 0"> | <img src="./figures/umap_leffingwell_random_seed1.png" width="300" alt="Random-split GNN embedding projection, seed 1"> | <img src="./figures/umap_leffingwell_random_seed2.png" width="300" alt="Random-split GNN embedding projection, seed 2"> |
-
-| Seed 3 | Seed 4 | Seed 10 |
-| --- | --- | --- |
-| <img src="./figures/umap_leffingwell_random_seed3.png" width="300" alt="Random-split GNN embedding projection, seed 3"> | <img src="./figures/umap_leffingwell_random_seed4.png" width="300" alt="Random-split GNN embedding projection, seed 4"> | <img src="./figures/umap_leffingwell_random_seed10.png" width="300" alt="Random-split GNN embedding projection, seed 10"> |
-
-#### Scaffold split
-
-| Seed 0 | Seed 1 | Seed 2 |
-| --- | --- | --- |
-| <img src="./figures/umap_leffingwell_scaffold_seed0.png" width="300" alt="Scaffold-split GNN embedding projection, seed 0"> | <img src="./figures/umap_leffingwell_scaffold_seed1.png" width="300" alt="Scaffold-split GNN embedding projection, seed 1"> | <img src="./figures/umap_leffingwell_scaffold_seed2.png" width="300" alt="Scaffold-split GNN embedding projection, seed 2"> |
-
-| Seed 3 | Seed 4 | Seed 5 |
-| --- | --- | --- |
-| <img src="./figures/umap_leffingwell_scaffold_seed3.png" width="300" alt="Scaffold-split GNN embedding projection, seed 3"> | <img src="./figures/umap_leffingwell_scaffold_seed4.png" width="300" alt="Scaffold-split GNN embedding projection, seed 4"> | <img src="./figures/umap_leffingwell_scaffold_seed5.png" width="300" alt="Scaffold-split GNN embedding projection, seed 5"> |
-
-| Seed 6 | Seed 7 | Seed 8 |
-| --- | --- | --- |
-| <img src="./figures/umap_leffingwell_scaffold_seed6.png" width="300" alt="Scaffold-split GNN embedding projection, seed 6"> | <img src="./figures/umap_leffingwell_scaffold_seed7.png" width="300" alt="Scaffold-split GNN embedding projection, seed 7"> | <img src="./figures/umap_leffingwell_scaffold_seed8.png" width="300" alt="Scaffold-split GNN embedding projection, seed 8"> |
-
-| Seed 9 | Seed 10 |
-| --- | --- |
-| <img src="./figures/umap_leffingwell_scaffold_seed9.png" width="300" alt="Scaffold-split GNN embedding projection, seed 9"> | <img src="./figures/umap_leffingwell_scaffold_seed10.png" width="300" alt="Scaffold-split GNN embedding projection, seed 10"> |
+| Seed | Random split | Scaffold split |
+| ---: | --- | --- |
+| 0 | <img src="./figures/umap_leffingwell_random_seed0.png" width="300" alt="Random split UMAP, seed 0"> | <img src="./figures/umap_leffingwell_scaffold_seed0.png" width="300" alt="Scaffold split UMAP, seed 0"> |
+| 1 | <img src="./figures/umap_leffingwell_random_seed1.png" width="300" alt="Random split UMAP, seed 1"> | <img src="./figures/umap_leffingwell_scaffold_seed1.png" width="300" alt="Scaffold split UMAP, seed 1"> |
+| 2 | <img src="./figures/umap_leffingwell_random_seed2.png" width="300" alt="Random split UMAP, seed 2"> | <img src="./figures/umap_leffingwell_scaffold_seed2.png" width="300" alt="Scaffold split UMAP, seed 2"> |
+| 3 | <img src="./figures/umap_leffingwell_random_seed3.png" width="300" alt="Random split UMAP, seed 3"> | <img src="./figures/umap_leffingwell_scaffold_seed3.png" width="300" alt="Scaffold split UMAP, seed 3"> |
+| 4 | <img src="./figures/umap_leffingwell_random_seed4.png" width="300" alt="Random split UMAP, seed 4"> | <img src="./figures/umap_leffingwell_scaffold_seed4.png" width="300" alt="Scaffold split UMAP, seed 4"> |
+| 5 | <img src="./figures/umap_leffingwell_random_seed5.png" width="300" alt="Random split UMAP, seed 5"> | <img src="./figures/umap_leffingwell_scaffold_seed5.png" width="300" alt="Scaffold split UMAP, seed 5"> |
+| 6 | <img src="./figures/umap_leffingwell_random_seed6.png" width="300" alt="Random split UMAP, seed 6"> | <img src="./figures/umap_leffingwell_scaffold_seed6.png" width="300" alt="Scaffold split UMAP, seed 6"> |
+| 7 | <img src="./figures/umap_leffingwell_random_seed7.png" width="300" alt="Random split UMAP, seed 7"> | <img src="./figures/umap_leffingwell_scaffold_seed7.png" width="300" alt="Scaffold split UMAP, seed 7"> |
+| 8 | <img src="./figures/umap_leffingwell_random_seed8.png" width="300" alt="Random split UMAP, seed 8"> | <img src="./figures/umap_leffingwell_scaffold_seed8.png" width="300" alt="Scaffold split UMAP, seed 8"> |
+| 9 | <img src="./figures/umap_leffingwell_random_seed9.png" width="300" alt="Random split UMAP, seed 9"> | <img src="./figures/umap_leffingwell_scaffold_seed9.png" width="300" alt="Scaffold split UMAP, seed 9"> |
+| 10 | <img src="./figures/umap_leffingwell_random_seed10.png" width="300" alt="Random split UMAP, seed 10"> | <img src="./figures/umap_leffingwell_scaffold_seed10.png" width="300" alt="Scaffold split UMAP, seed 10"> |
 
 ## Running it
 
