@@ -58,6 +58,18 @@ The saved runs compare the models on the Leffingwell dataset using random splits
 
 Across these runs, GNN has the highest mean test macro AUROC, narrowly ahead of LR. The standard deviations show variation across random splits; they are not confidence intervals. The notebook aggregates available runs across seeds and saves per-label comparisons to `results/per_label_<SOURCE>_<SPLIT>.csv`; it also creates a per-label GNN-versus-RF scatter plot when results for both models are available.
 
+### Scaffold split results
+
+The following results use Murcko-scaffold splits with seeds 0–10 (11 seeds). Macro AUROC is calculated for each run by averaging the defined per-label test AUROCs, then summarized across seeds with the mean and population standard deviation. Labels without both classes in a test set have undefined AUROC and are skipped; the number of labels included per run ranges from 82 to 84.
+
+| Model | Input features | Test macro AUROC (mean ± SD) |
+| --- | --- | ---: |
+| Logistic Regression (LR) | Morgan count fingerprints | 0.8416 ± 0.0227 |
+| Random Forest (RF) | Morgan count fingerprints | 0.8143 ± 0.0258 |
+| Graph Neural Network (GNN) | Molecular graph | 0.8373 ± 0.0392 |
+
+LR has the highest mean across these scaffold splits, followed by GNN and RF. Compared with random splits, scaffold splits hold out molecular frameworks, providing a more demanding measure of generalization to structurally distinct molecules. The standard deviations describe variation across seeds, not confidence intervals. Aggregate per-label scores are saved in `results/per_label_<SOURCE>_scaffold.csv`.
+
 ## Figures
 
 The following figures are included in [`figures/`](./figures/):
@@ -70,6 +82,9 @@ The following figures are included in [`figures/`](./figures/):
 | Molecular properties | ![Molecular properties in the Leffingwell dataset](./figures/eda_molecules_leffingwell.png) |
 | Per-label model comparison | ![Per-label AUROC comparison between the GNN and Random Forest](./figures/gnn_vs_rf_leffingwell_random.png) |
 | GNN embedding projection | ![UMAP projection of GNN embeddings colored by odor labels](./figures/umap_leffingwell_random_seed0.png) |
+| Scaffold-split labels per molecule | ![Distribution of odor-label counts per molecule in the scaffold split](./figures/eda_labels_per_mol_leffingwell_scaffold.png) |
+| Scaffold-split model comparison | ![Per-label AUROC comparison between the GNN and Random Forest for the scaffold split](./figures/gnn_vs_rf_leffingwell_scaffold.png) |
+| Scaffold-split GNN embedding projection | ![UMAP projection of scaffold-split GNN embeddings colored by odor labels](./figures/umap_leffingwell_scaffold_seed0.png) |
 
 ## Running it
 
