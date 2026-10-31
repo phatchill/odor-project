@@ -1,0 +1,3 @@
+[submodule "pyrfume-data"]
+	path = pyrfume-data
+	url = https://github.com/phatchill/pyrfume-data.git

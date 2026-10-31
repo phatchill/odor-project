@@ -1,0 +1,70 @@
+# Odor Prediction: SMILES and Code Guide
+
+This project uses the notebook [odor_prediction.ipynb](./odor_prediction.ipynb) to predict odor-descriptor labels from molecular structures. It compares two models built on Morgan fingerprints with a graph neural network (GNN), using data from the Pyrfume Leffingwell and GoodScents collections.
+
+## What is SMILES?
+
+**SMILES** (Simplified Molecular Input Line Entry System) is a text notation for describing a molecule's atoms and the bonds between them. Instead of storing a molecule as a drawing, SMILES records a path through its structure, with symbols for branches, bond types, and rings.
+
+| SMILES | Structure described |
+| --- | --- |
+| `C` | Methane |
+| `CC` | Ethane: two carbon atoms joined by a single bond |
+| `CCO` | Ethanol |
+| `CC(=O)O` | Acetic acid; parentheses mark a branch and `=` marks a double bond |
+| `c1ccccc1` | Benzene; lowercase `c` denotes aromatic carbon and `1` closes the ring |
+
+Common notation:
+
+- Element symbols such as `C`, `N`, and `O` represent atoms. Lowercase forms such as `c` and `n` represent aromatic atoms.
+- Writing atoms next to each other implies a single bond unless another bond symbol is given. `=`, `#`, and `-` indicate double, triple, and explicit single bonds.
+- Parentheses indicate a branch from the current atom, as in `CC(=O)O`.
+- Matching digits mark the two ends of a ring closure, as in the `1` digits in `c1ccccc1`.
+- A dot (`.`) separates disconnected components, such as the parts of a salt.
+- SMILES can encode stereochemistry as well as connectivity. This notebook deliberately removes stereochemistry during canonicalization, so stereoisomers with the same connectivity are treated as the same molecule.
+
+SMILES is a representation, not an odor description: the notebook uses it to reconstruct molecular structures and derive input features for its models.
+
+## What the notebook does
+
+The notebook is designed to be run from top to bottom. Its main stages are:
+
+1. **Configure and prepare.** Set the data source, split strategy, random seed, label-frequency cutoff, and GNN hyperparameters. Check for required Python packages, clone `pyrfume-data` if the expected local data folder is missing, and create `results/`, `models/`, and `figures/`.
+2. **Load and standardize data.** Read the selected odor dataset and associate each observation with a SMILES string. GoodScents descriptor text is split into individual labels. RDKit parses and canonicalizes each structure; invalid or missing structures are discarded.
+3. **Build the prediction targets.** Rows with the same canonical SMILES are merged, combining their labels with a maximum (so a positive label from either row remains positive). Labels with fewer than `MIN_POS` positive molecules are removed, as are molecules left with no retained labels. The resulting target matrix has one row per molecule and one binary column per odor label.
+4. **Create data splits and inspect the data.** A seeded random split or a Murcko-scaffold split creates training, validation, and test sets. The exploratory analysis plots label frequencies and co-occurrences, label counts per molecule, molecular properties, and scaffold group sizes.
+5. **Evaluate fingerprint baselines.** RDKit computes radius-2, 2048-bit Morgan **count** fingerprints. A multi-output Random Forest and one Logistic Regression classifier per label use these features. Their test-set predictions are evaluated with per-label and macro AUROC.
+6. **Train the graph neural network.** Each molecule becomes a graph: atoms are nodes, bonds are undirected edges, and atom features describe element, degree, hydrogen count, hybridization, aromaticity, ring membership, and formal charge. A GIN (Graph Isomorphism Network) updates atom representations, pools them into one molecule vector using sum and mean pooling, and predicts all labels. Training uses weighted binary cross-entropy and selects the checkpoint with the best validation macro AUROC, with early stopping.
+7. **Compare results and visualize embeddings.** Per-label results from available runs are aggregated and written to CSV; when both GNN and Random Forest results exist, a scatter plot compares their per-label AUROCs. The extras section calculates GNN embeddings and plots a UMAP projection colored by selected odor labels.
+
+### A few implementation details
+
+- **Canonicalization matters.** `_flat_canonical` parses each SMILES with RDKit, removes stereochemistry, then writes a canonical SMILES. This helps group different text spellings of the same connectivity together, but it intentionally collapses stereoisomers. It does not mean that different disconnected components are removed.
+- **Random vs. scaffold split.** A random split can put closely related structures in both training and test sets. The scaffold split groups molecules by their Murcko ring/framework scaffold before assigning groups to partitions, providing a stricter test of generalization to different frameworks. Acyclic molecules are assigned separate groups.
+- **AUROC.** Per-label AUROC measures how well a model ranks positive examples above negative examples, across thresholds. Macro AUROC averages the per-label scores; labels without both classes in a particular evaluation split have undefined AUROC and are skipped by the average.
+- **The GNN's atom representation is intentionally compact.** The current graph construction uses atom features and bond connectivity; it does not add explicit bond-type features.
+- **Interpretability helpers.** The notebook defines an atom-level gradient-times-input contribution function and lists example functional groups, but the current notebook cells do not apply that function to molecules or produce saliency figures. The label-geometry check is also described in the extras heading but is not implemented in the current cells.
+- **Predictions are learned associations.** A predicted descriptor is a model estimate from the dataset, not a guarantee of how every person will perceive a molecule and not evidence that a specific atom causes an odor.
+
+## Running it
+
+Open the notebook in Jupyter and run its cells in order:
+
+```bash
+jupyter notebook odor_prediction.ipynb
+```
+
+The notebook checks for these main dependencies: NumPy, pandas, RDKit, scikit-learn, PyTorch, PyTorch Geometric, Matplotlib, and UMAP. Install PyTorch and PyTorch Geometric using instructions appropriate for your operating system and hardware; then install any other missing packages in the same Python environment as Jupyter.
+
+At the top of the notebook, the main settings are:
+
+- `SOURCE`: `"leffingwell"`, `"goodscents"`, or `"merged"`.
+- `SPLIT`: `"random"` or `"scaffold"`.
+- `SEED`: random seed for reproducibility and for naming saved outputs.
+- `MIN_POS`: minimum number of positive molecules required to retain a label.
+- `EPOCHS`, `PATIENCE`, `HIDDEN`, `LAYERS`, `DROPOUT`, `LR`, and `BATCH_SIZE`: GNN training settings.
+- `DATA_DIR`: location of the Pyrfume data repository.
+
+The downloaded `pyrfume-data/` directory is intentionally excluded from this repository. When the expected dataset is missing, the notebook attempts to clone it from the upstream Pyrfume project. Check the upstream archive's license and any dataset-specific terms before redistributing its data.
+
+The notebook saves per-model AUROC CSVs and aggregate results in `results/`, the trained GNN checkpoint in `models/`, and exploratory/model-comparison plots in `figures/`. File names include the data source, split, and seed. Re-run the experiment with different seeds to compare results across random partitions; use the validation set for model selection and reserve the test set for final evaluation.
