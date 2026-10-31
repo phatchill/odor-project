@@ -48,15 +48,15 @@ The notebook is designed to be run from top to bottom. Its main stages are:
 
 ## Model comparison
 
-The current saved run compares the models on the Leffingwell dataset using a random split (seed 0). All three models use the same test split, and macro AUROC is averaged across 84 odor labels with defined scores.
+The saved runs compare the models on the Leffingwell dataset using random splits with seeds 0–10 (11 seeds). For each seed, macro AUROC is averaged across 84 odor labels with defined scores; the table reports the mean and population standard deviation across seeds.
 
-| Model | Input features | Test macro AUROC |
+| Model | Input features | Test macro AUROC (mean ± SD) |
 | --- | --- | ---: |
-| Logistic Regression (LR) | Morgan count fingerprints | 0.8735 |
-| Random Forest (RF) | Morgan count fingerprints | 0.8668 |
-| Graph Neural Network (GNN) | Molecular graph | 0.8696 |
+| Logistic Regression (LR) | Morgan count fingerprints | 0.8799 ± 0.0053 |
+| Random Forest (RF) | Morgan count fingerprints | 0.8678 ± 0.0062 |
+| Graph Neural Network (GNN) | Molecular graph | 0.8806 ± 0.0075 |
 
-For this run, LR has the highest test macro AUROC. These values come from one random seed and should not be treated as an estimate of performance across different splits. The notebook aggregates available runs across seeds and saves per-label comparisons to `results/per_label_<SOURCE>_<SPLIT>.csv`; it also creates a per-label GNN-versus-RF scatter plot when results for both models are available.
+Across these runs, GNN has the highest mean test macro AUROC, narrowly ahead of LR. The standard deviations show variation across random splits; they are not confidence intervals. The notebook aggregates available runs across seeds and saves per-label comparisons to `results/per_label_<SOURCE>_<SPLIT>.csv`; it also creates a per-label GNN-versus-RF scatter plot when results for both models are available.
 
 ## Figures
 
