@@ -65,6 +65,28 @@ At the top of the notebook, the main settings are:
 - `EPOCHS`, `PATIENCE`, `HIDDEN`, `LAYERS`, `DROPOUT`, `LR`, and `BATCH_SIZE`: GNN training settings.
 - `DATA_DIR`: location of the Pyrfume data repository.
 
-The downloaded `pyrfume-data/` directory is intentionally excluded from this repository. When the expected dataset is missing, the notebook attempts to clone it from the upstream Pyrfume project. Check the upstream archive's license and any dataset-specific terms before redistributing its data.
+### Pyrfume data as a Git submodule
+
+The `pyrfume-data/` directory is a separate Git repository, so this project can link to it as a submodule instead of copying its data files into the main repository. The main repository records the submodule URL and the specific data-repository commit it uses; it does not store another copy of the data.
+
+To clone this project and fetch the linked data repository in one step:
+
+```bash
+git clone --recurse-submodules https://github.com/<account>/<project>.git
+```
+
+If you already cloned the project without its submodule, initialize it from the project directory:
+
+```bash
+git submodule update --init --recursive
+```
+
+When adding the submodule to the main project for the first time, run this from the project root, using the data-repository URL you intend to use:
+
+```bash
+git submodule add https://github.com/pyrfume/pyrfume-data.git pyrfume-data
+```
+
+Replace the URL with your own fork if appropriate. The target `pyrfume-data/` path must not already contain a separate checkout when adding it this way. Once added, commit both `.gitmodules` and the submodule reference in the main repository. Check the upstream repository's license and any dataset-specific terms before redistributing its data.
 
 The notebook saves per-model AUROC CSVs and aggregate results in `results/`, the trained GNN checkpoint in `models/`, and exploratory/model-comparison plots in `figures/`. File names include the data source, split, and seed. Re-run the experiment with different seeds to compare results across random partitions; use the validation set for model selection and reserve the test set for final evaluation.
