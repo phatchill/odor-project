@@ -58,6 +58,19 @@ The current saved run compares the models on the Leffingwell dataset using a ran
 
 For this run, LR has the highest test macro AUROC. These values come from one random seed and should not be treated as an estimate of performance across different splits. The notebook aggregates available runs across seeds and saves per-label comparisons to `results/per_label_<SOURCE>_<SPLIT>.csv`; it also creates a per-label GNN-versus-RF scatter plot when results for both models are available.
 
+## Figures
+
+The following figures are included in [`figures/`](./figures/):
+
+| Exploratory analysis | Figure |
+| --- | --- |
+| Odor label frequency | ![Frequency of odor labels in the Leffingwell dataset](./figures/eda_label_freq_leffingwell.png) |
+| Odor label co-occurrence | ![Co-occurrence of odor labels in the Leffingwell dataset](./figures/eda_cooccurrence_leffingwell.png) |
+| Number of labels per molecule | ![Distribution of odor-label counts per molecule](./figures/eda_labels_per_mol_leffingwell_random.png) |
+| Molecular properties | ![Molecular properties in the Leffingwell dataset](./figures/eda_molecules_leffingwell.png) |
+| Per-label model comparison | ![Per-label AUROC comparison between the GNN and Random Forest](./figures/gnn_vs_rf_leffingwell_random.png) |
+| GNN embedding projection | ![UMAP projection of GNN embeddings colored by odor labels](./figures/umap_leffingwell_random_seed0.png) |
+
 ## Running it
 
 Open the notebook in Jupyter and run its cells in order:
